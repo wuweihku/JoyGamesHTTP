@@ -12,7 +12,7 @@ import configparser
 
 # 配置类
 class ConfigHttp:
-    ''' 配置要测试接口服务器的ip、端口、域名等信息，封装http 请求方法，http 头设置等'''
+    ''' 配置要测试接口服务器的协议,ip、端口、域名等信息，封装http 请求方法，http 头设置等'''
     
     # 传入文件对象ini_file配置文件
     def __init__(self, ini_file):
@@ -20,17 +20,32 @@ class ConfigHttp:
         # 使用configparser配置库，生成config对象
         config = configparser.ConfigParser()
 
-        # 从配置文件中读取接口服务器IP、域名，端口
+        # 从配置文件中读取接口服务器协议,IP、域名，端口
         config.read(ini_file)
+        self.protocol = config['HTTP']['protocol']
         self.host = config['HTTP']['host']
         self.port = config['HTTP']['port']
-        # http 头
-        self.headers = {}
+        # 刚从文本读取进来的时候，是字符串str
+        self.headers = config['HTTP']['headers']
+        # 把字符串类型的dict转换为dict
+        self.headers = eval(self.headers)
 
         # install cookie
         cj = http.cookiejar.CookieJar()
         opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
         urllib.request.install_opener(opener)
+
+    def set_headers(self, headers):
+        self.headers = headers
+
+    def get_headers(self):
+        return self.headers
+
+    def set_protocol(self, protocol):
+        self.protocol = protocol
+
+    def get_protocol(self):
+        return self.protocol
 
     def set_host(self, host):
         self.host = host
@@ -44,17 +59,11 @@ class ConfigHttp:
     def get_port(self):
         return  self.port
 
-    def set_header(self, headers):
-        self.headers = headers
-
-    def get_header(self):
-        return  self.headers
-
     # 封装HTTP GET请求方法
     def get(self, url, params):
         # 将参数转为url编码字符串
         params = urllib.parse.urlencode(eval(params))
-        url = 'http://' + self.host + ':' + str(self.port)  + url + params
+        url = str(self.protocol) + '://' + self.host + ':' + str(self.port)  + url + params 
         request = urllib.request.Request(url, headers=self.headers)
 
         try:
@@ -72,7 +81,8 @@ class ConfigHttp:
     def post(self, url, data):
         data = json.dumps(eval(data))
         data = data.encode('utf-8')
-        url = 'http://' + self.host + ':' + str(self.port)  + url
+        url = str(self.protocol) + '://' + self.host + ':' + str(self.port)  + url
+        
         try:
             request = urllib.request.Request(url, headers=self.headers)
             response = urllib.request.urlopen(request, data)
@@ -84,6 +94,6 @@ class ConfigHttp:
             return {}
 
     # 封装xxx请求方法
-    # 比如delete、put等，甚至是https、socket，以后也是需要扩展的
+    # 比如delete、put等，甚至是socket
 
 
