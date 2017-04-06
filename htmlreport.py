@@ -25,6 +25,7 @@ class HtmlReport:
             page = PyH(self.title)
             
             # 防浏览器中文乱码
+            # 也可以去pyh.py的源码中编辑相应参数
             page << '<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />'
             
             # 标题居中
