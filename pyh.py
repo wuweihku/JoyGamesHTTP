@@ -18,7 +18,7 @@ nOpen={}
 
 nl = '\n'
 doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n'
-charset = '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />\n'
+charset = '<meta http-equiv="Content-Type" content="text/html;charset=gb2312" />\n'
 
 tags = ['html', 'body', 'head', 'link', 'meta', 'div', 'p', 'form', 'legend',
         'input', 'select', 'span', 'b', 'i', 'option', 'img', 'script',

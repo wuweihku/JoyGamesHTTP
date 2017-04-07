@@ -13,15 +13,15 @@ class Global:
     def __init__(self):
         # 读取并配置接口服务器IP，端口等信息,生成self.http对象
         # self.http的可用方法有get_host、get_port等
-        self.http = ConfigHttp('../config/http_conf.ini')
+        self.http = ConfigHttp('./config/http_conf.ini')
 
         # 读取并配置数据库服务器IP，端口等信息，生成self.db对象
         # self.db的可用方法有get_conn
-        self.db = GetDB('../config/db_config.ini', 'DATABASE')
+        self.db = GetDB('./config/db_config.ini', 'DATABASE')
         
         # 读取运行模式配置，生成self.run_mode_config对象
         # self.run_mode_config对象的可用方法有get_run_mode、get_case_list
-        self.run_mode_config = ConfigRunMode('../config/run_case_config.ini')
+        self.run_mode_config = ConfigRunMode('./config/run_case_config.ini')
 
     # 返回http对象
     def get_http(self):

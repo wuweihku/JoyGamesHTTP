@@ -16,8 +16,10 @@ class  RunCase:
         pass
 
     # 运行测试用例函数
-    def run_case(self, runner, run_mode, run_case_list, db_conn, protocol):
+    def run_case(self, runner, run_mode, run_case_list, db_conn, http):
         global test_data
+        self.http = http
+
         # 运行全部用例
         if 1 == run_mode:
             db_cursor = db_conn.cursor()
@@ -55,7 +57,7 @@ class  RunCase:
 
                 test_suite = unittest.TestSuite()
                 # self.http.protocol
-                test_suite.addTest(TestInterfaceCase(test_data.test_method, test_data, self.http.protocol, db_cursor))
+                test_suite.addTest(TestInterfaceCase(test_data.test_method, test_data, http, db_cursor))
                 runner.run(test_suite)
                 db_cursor.close()
         # 运行部分用例
@@ -87,6 +89,6 @@ class  RunCase:
                     db_cursor.execute('rollback')
 
                 test_suite = unittest.TestSuite()
-                test_suite.addTest(TestInterfaceCase(test_data.test_method, test_data, self.http.protocol, db_cursor))
+                test_suite.addTest(TestInterfaceCase(test_data.test_method, test_data, http, db_cursor))
                 runner.run(test_suite)
                 db_cursor.close()

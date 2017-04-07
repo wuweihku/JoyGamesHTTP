@@ -22,6 +22,7 @@ class ConfigHttp:
 
         # 从配置文件中读取接口服务器协议,IP、域名，端口
         config.read(ini_file)
+        
         self.protocol = config['HTTP']['protocol']
         self.host = config['HTTP']['host']
         self.port = config['HTTP']['port']

@@ -10,12 +10,12 @@ import  unittest
 # 测试用例(组)类
 class ParametrizedTestCase(unittest.TestCase):
     '''DB中的测试用例request_param通过此类得以参数化parametrized'''
-    def __init__(self, methodName='runTest', test_data=None, protocol=None, db_cursor=None):
+    def __init__(self, methodName='runTest', test_data=None, http=None, db_cursor=None):
         super(ParametrizedTestCase, self).__init__(methodName)
         # test_data = DataStruct(),datastruct.py里定义的数据结构
         self.test_data = test_data
         # http/https
-        self.protocol = protocol
+        self.http = http
         # 数据库句柄
         self.db_cursor = db_cursor
 
@@ -36,11 +36,11 @@ class TestInterfaceCase(ParametrizedTestCase):
             self.test_data.result = 'Error'
             try:
                 # 更新结果表中的用例运行结果
-                self.cursor.execute('UPDATE test_result SET result = %s WHERE case_id = %s', (self.test_data.result, self.test_data.case_id))
-                self.cursor.execute('commit')
+                self.db_cursor.execute('UPDATE test_result SET result = %s WHERE case_id = %s', (self.test_data.result, self.test_data.case_id))
+                self.db_cursor.execute('commit')
             except Exception as e:
                 print('%s' % e)
-                self.cursor.execute('rollback')
+                self.db_cursor.execute('rollback')
             return
 
         try:
