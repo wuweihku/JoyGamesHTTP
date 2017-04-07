@@ -30,6 +30,7 @@ class TestInterfaceCase(ParametrizedTestCase):
        # 'User-Agent':'Mozilla/5.0 (Windows NT 6.1; rv:29.0) Gecko/20100101 Firefox/29.0'
        #    }
        # self.http.set_header(header)
+        #  self.http是globalconfig.py里面self.http = ConfigHttp('../config/http_conf.ini')实例化的对象
         response = self.http.get(self.test_data.request_url,  self.test_data.request_param)
         if {} == response:
             self.test_data.result = 'Error'
