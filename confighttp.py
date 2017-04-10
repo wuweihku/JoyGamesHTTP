@@ -88,8 +88,10 @@ class ConfigHttp:
             return json_response
         except Exception as e:
             print('%s' % e)
+            # 向上层抛出异常，让顶层调用者去处理
+            raise
             return {}
-
+            
     # 封装HTTP POST请求方法
     def post(self, url, data):
         data = json.dumps(eval(data))
@@ -106,6 +108,8 @@ class ConfigHttp:
             return json_response
         except Exception as e:
             print('%s' % e)
+            # 向上层抛出异常，让顶层调用者去处理
+            raise
             return {}
 
     # 封装xxx请求方法
