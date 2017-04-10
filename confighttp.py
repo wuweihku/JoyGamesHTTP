@@ -21,6 +21,11 @@ class ConfigHttp:
         config = configparser.ConfigParser()
 
         # 从配置文件中读取接口服务器协议,IP、域名，端口
+        # http_conf.ini配置文件
+        # protocol协议，http/https已在此处完成配置选择
+        # host主机
+        # port端口
+        # headers头
         config.read(ini_file)
         
         self.protocol = config['HTTP']['protocol']
@@ -35,12 +40,6 @@ class ConfigHttp:
         cj = http.cookiejar.CookieJar()
         opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
         urllib.request.install_opener(opener)
-
-    def set_headers(self, headers):
-        self.headers = headers
-
-    def get_headers(self):
-        return self.headers
 
     def set_protocol(self, protocol):
         self.protocol = protocol
@@ -59,12 +58,25 @@ class ConfigHttp:
 
     def get_port(self):
         return  self.port
+    
+    def set_headers(self, headers):
+        self.headers = headers
+
+    def get_headers(self):
+        return self.headers
+
 
     # 封装HTTP GET请求方法
+    # 由ConfigHttp类实例化的http对象，都直接用类中的方法和属性
+    # 方法get/post等，可扩展
+    # 属性protocol/host/port/headers
     def get(self, url, params):
         # 将参数转为url编码字符串
         params = urllib.parse.urlencode(eval(params))
         url = str(self.protocol) + '://' + self.host + ':' + str(self.port)  + url + params 
+        
+        print('Using get() ConfigHttp function : ', url)
+
         request = urllib.request.Request(url, headers=self.headers)
 
         try:
@@ -83,7 +95,9 @@ class ConfigHttp:
         data = json.dumps(eval(data))
         data = data.encode('utf-8')
         url = str(self.protocol) + '://' + self.host + ':' + str(self.port)  + url
-        
+       
+        print('Using post() ConfigHttp function : ', url)
+
         try:
             request = urllib.request.Request(url, headers=self.headers)
             response = urllib.request.urlopen(request, data)

@@ -11,7 +11,7 @@ class GetDB:
     '''配置数据库IP，端口等信息，获取数据库连接'''
     
     # ini_file是数据库配置文件
-    # db是选择的database数据库,比如db = testdb
+    # db是ini_file的section名，用于config[db]['host']
     def __init__(self, ini_file, db):
         config = configparser.ConfigParser()
 
@@ -24,6 +24,7 @@ class GetDB:
         self.db = config[db]['db']
         self.charset = config[db]['charset']
 
+    # 使用GetDB生成对象后，用对象的get_conn返回数据库连接句柄进行后续操作
     def get_conn(self):
         # 尝试建立连接
         try:

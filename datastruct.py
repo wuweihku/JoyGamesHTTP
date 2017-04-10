@@ -4,8 +4,19 @@
 __author__ = 'WUWEI'
 
 class DataStruct:
-    '''定义结构体，接收从测试数据库testdb 中test_data 表读取的测试数据,记录要写入测试报告的数据'''
-    
+    '''
+    定义结构体，接收从测试数据库testdb 中test_data 表读取的测试数据,记录要写入测试报告的数据
+    表： test_data Field Information:
+    case_id : 用例编号
+    http_method : get or post
+    request_name : 接口名称，一般是接口文档的描述 
+    request_url ：请求的地址
+    request_param ：请求的参数
+    test_method ：目标测试函数
+    response_expectation：期望
+    test_desc：测试case描述
+
+    '''
     def __init__(self):
         self.case_id = 0       #用例ID
         self.http_method = ''  #接口http方法
