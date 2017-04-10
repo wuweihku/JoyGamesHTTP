@@ -70,14 +70,15 @@ class TestInterfaceCase(ParametrizedTestCase):
 
         try:
             # 读取数据库response_expectation，用于和接口请求返回码结果做比较
-            self.assertEqual(response['code'], self.test_data.response_expectation, msg='返回code与预期response_expectation不匹配')
+            self.assertEqual(int(response['code']), int(self.test_data.response_expectation))
             # 通过即Pass
             self.test_data.result = 'Pass'
         except AssertionError as e:
             print('%s' % e)
             self.test_data.result = 'Fail'
             # 记录失败原因
-            self.test_data.reason = '%s' % e
+            self.test_data.reason = 'Raise Error:%s , Response:%s'%(e,response)
+            print(self.test_data.reason)
 
         # 更新结果表中的用例运行结果
         try:

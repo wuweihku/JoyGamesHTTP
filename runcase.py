@@ -16,6 +16,7 @@ class  RunCase:
         pass
 
     # 运行测试用例函数
+    # runner
     def run_case(self, runner, run_mode, run_case_list, db_conn, http):
         global test_data
         self.http = http
@@ -56,15 +57,20 @@ class  RunCase:
                     db_cursor.execute('rollback')
 
                 test_suite = unittest.TestSuite()
-                # self.http.protocol
+                # methodName即test_data.test_method,也就是目标测试方法test_interface_case，而非http_method get or post
+                # test_data = DataStruct(),自定义数据结构对象
+                # http即ConfigHttp生成的http对象
+                # db_cursor即GetDB生成的对象的数据库连接句柄
+                # 根据数据库的一条条case，生成测试用例套件
                 test_suite.addTest(TestInterfaceCase(test_data.test_method, test_data, http, db_cursor))
                 runner.run(test_suite)
                 db_cursor.close()
         # 运行部分用例
+        # 在run_case_config.ini中配置，可以选择[x,y]的范围用例
         else:
             for case_id in run_case_list:
                 db_cursor = db_conn.cursor()    
-                db_cursor.execute('SELECT http_method, request_name, request_url, request_param, test_method, test_desc FROM test_data WHERE case_id = %s',(case_id,))
+                db_cursor.execute('SELECT http_method, request_name, request_url, request_param, test_method, test_desc, response_expectation FROM test_data WHERE case_id = %s',(case_id,))
                 # 记录数据
                 tmp_result = db_cursor.fetchone()
                 test_data.case_id = case_id
