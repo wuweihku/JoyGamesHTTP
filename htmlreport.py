@@ -50,7 +50,7 @@ class HtmlReport:
                       '&nbsp'*10 + '失败用例数：' + str(self.fail_num) + '&nbsp'*10 +  '出错用例数：' + str(self.error_num))
             # 表格标题caption 表格边框border 单元边沿与其内容之间的空白cellpadding 单元格之间间隔为cellspacing
 
-            tab = table( border='1', cellpadding='1', cellspacing='0', cl='table')
+            tab = table( border='1', cellpadding='1', cellspacing='0', cl='table', style="width:100%; height:100%;")
             tab1 = page << tab
             tab1 << tr(td('用例ID', bgcolor='#ABABAB', align='center')
                        + td('HTTP方法', bgcolor='#ABABAB', align='center')
@@ -67,7 +67,6 @@ class HtmlReport:
                           'request_param, test_method, test_desc, result, reason FROM test_result')
             self.cursor.execute(query)
             query_result = self.cursor.fetchall()
-
             for row in query_result:
                 tab1<< tr(td(int(row[0]), align='center') + td(row[1]) +
                               td(row[2]) + td(row[3], align='center') +

@@ -53,7 +53,7 @@ class TestInterfaceCase(ParametrizedTestCase):
         except Exception as e:
             # 异常的情况下
             self.test_data.result = 'Error'
-            self.test_data.reason = str(e.reason)
+            self.test_data.reason = str(e)
             try:
                 # 更新结果表中的用例运行结果
                 # 更新结果表中的self.test_data.reason失败原因
