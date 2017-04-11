@@ -14,7 +14,7 @@ class GetDB:
     # db是ini_file的section名，用于config[db]['host']
     def __init__(self, ini_file, db):
         config = configparser.ConfigParser()
-
+        # 这里在globalconfig.py里生成对象时，传db = DATABASE
         # 从配置文件中读取数据库服务器IP、域名，端口
         config.read(ini_file)
         self.host = config[db]['host']

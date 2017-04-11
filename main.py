@@ -34,7 +34,7 @@ if __name__ == '__main__':
     html_report.set_time_took(str(end_time - start_time))  # 计算测试消耗时间
 
     # 生成测试报告
-    html_report.generate_html('test report', './report/report.html')
+    html_report.generate_html('Test Report', './report/report.html')
 
     # 释放数据库连接资源
     global_config.clear()

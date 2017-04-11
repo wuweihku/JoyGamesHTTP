@@ -15,16 +15,16 @@ class Global:
         # 由ConfigHttp类实例化的http对象，都直接用类中的方法和属性
         # 方法get/post等，可扩展
         # 属性protocol/host/port/headers
-        self.http = ConfigHttp('./config/http_conf.ini')
+        self.http = ConfigHttp('./config/config.ini')
 
         # 读取并配置数据库服务器IP，端口等信息，生成self.db对象
         # self.db的可用方法有get_conn,返回数据库连接句柄进行后续操作
-        # DATABASE是db_config.ini里的section名
-        self.db = GetDB('./config/db_config.ini', 'DATABASE')
+        # DATABASE是db_config.ini里的section名,因为可能会涉及多个数据库配置section，这里必须外部手动传参
+        self.db = GetDB('./config/config.ini', 'DATABASE')
         
         # 读取运行模式配置，生成self.run_mode_config对象
         # self.run_mode_config对象的可用方法有get_run_mode、get_case_list
-        self.run_mode_config = ConfigRunMode('./config/run_case_config.ini')
+        self.run_mode_config = ConfigRunMode('./config/config.ini')
 
     # 返回http对象,包含各种可操作属性和方法 
     def get_http(self):

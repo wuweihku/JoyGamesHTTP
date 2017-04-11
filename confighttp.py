@@ -21,7 +21,7 @@ class ConfigHttp:
         config = configparser.ConfigParser()
 
         # 从配置文件中读取接口服务器协议,IP、域名，端口
-        # http_conf.ini配置文件
+        # config.ini-[HTTP]
         # protocol协议，http/https已在此处完成配置选择
         # host主机
         # port端口

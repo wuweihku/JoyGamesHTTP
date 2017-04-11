@@ -8,11 +8,11 @@ import configparser
 class ConfigRunMode:
     '''从配置文件中读取运行模式'''
     
-    # 传入run_case_config_file配置文件
-    def __init__(self, run_case_config_file):
+    # 传入配置文件
+    def __init__(self, ini_file):
         config = configparser.ConfigParser()
 
-        config.read(run_case_config_file)
+        config.read(ini_file)
 
         try:
             self.run_mode = config['RUNCASECONFIG']['runmode']
