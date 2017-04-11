@@ -5,6 +5,13 @@
 # @purpose: a HTML tag generator
 # @author: Emmanuel Turlay <turlay@cern.ch>
 
+# 对于 >= Python 3.4,用于修复中文乱码问题
+import importlib
+import sys
+importlib.reload(sys)
+
+
+
 __doc__ = """The pyh.py module is the core of the PyH package. PyH lets you
 generate HTML tags from within your python code.
 See http://code.google.com/p/pyh/ for documentation.
@@ -138,11 +145,11 @@ class PyH(Tag):
     def addCSS(self, *arg):
         for f in arg: self.head += link(rel='stylesheet', type='text/css', href=f)
 
-    def printOut(self,file=''):
-        if file: f = open(file, 'w')
+    # 修改了pyh.py源码的printOut()函数，支持跨平台中文编码. windows/linux
+    def printOut(self,file='', ec='UTF-8'):
+        if file: f = open(file,'wb')
         else: f = stdout
-        f.write(doctype)
-        f.write(self.render())
+        f.write(doctype.encode(ec))
+        f.write(self.render().encode(ec))
         f.flush()
         if file: f.close()
-
