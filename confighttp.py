@@ -73,9 +73,12 @@ class ConfigHttp:
     def get(self, url, params):
         # 将参数转为url编码字符串
         params = urllib.parse.urlencode(eval(params))
+        
+        print('Request Data: %s \n'%params)
+
         url = str(self.protocol) + '://' + self.host + ':' + str(self.port)  + url + params 
         
-        print('Using get() ConfigHttp function : ', url)
+        print('Request URL: using get() ConfigHttp function - %s \n '%url)
 
         request = urllib.request.Request(url, headers=self.headers)
 
@@ -85,6 +88,9 @@ class ConfigHttp:
             response = response.read().decode('utf-8')
             # 将返回数据转为json格式的数据
             json_response = json.loads(response)
+            
+            print('Response: %s \n'%json_response)
+
             return json_response
         except Exception as e:
             print('%s' % e)
@@ -94,17 +100,23 @@ class ConfigHttp:
             
     # 封装HTTP POST请求方法
     def post(self, url, data):
-        data = json.dumps(eval(data))
+        data = urllib.parse.urlencode(eval(data))
         data = data.encode('utf-8')
+        
+        print('Request Data: %s \n'%data)
+
         url = str(self.protocol) + '://' + self.host + ':' + str(self.port)  + url
        
-        print('Using post() ConfigHttp function : ', url)
+        print('Request URL: Using post() ConfigHttp function - %s \n'%url)
 
         try:
             request = urllib.request.Request(url, headers=self.headers)
             response = urllib.request.urlopen(request, data)
             response = response.read().decode('utf-8')
             json_response = json.loads(response)
+            
+            print('Response: %s \n'%json_response)
+
             return json_response
         except Exception as e:
             print('%s' % e)
