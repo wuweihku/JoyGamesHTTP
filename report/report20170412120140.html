@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><title>Test_Report</title>
+</head>
+<body><h1 align="center">Test Report</h1>
+<p>测试总耗时：0:00:00.255534</p>
+<p>测试用例数：6&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp成功用例数：1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp失败用例数：5&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp出错用例数：0</p>
+<table class="table" cellpadding="1" cellspacing="0" border="1" style="width:100%; height:100%;"><tr><td bgcolor="#ABABAB" align="center">用例ID</td>
+<td bgcolor="#ABABAB" align="center">HTTP方法</td>
+<td bgcolor="#ABABAB" align="center">接口名称</td>
+<td bgcolor="#ABABAB" align="center">请求URL</td>
+<td bgcolor="#ABABAB" align="center">请求参数/数据</td>
+<td bgcolor="#ABABAB" align="center">测试方法</td>
+<td bgcolor="#ABABAB" align="center">测试描述</td>
+<td bgcolor="#ABABAB" align="center">测试结果</td>
+<td bgcolor="#ABABAB" align="center">失败原因</td>
+
+</tr>
+<tr><td align="center">1</td>
+<td>POST</td>
+<td>Android init接口</td>
+<td align="center">/init/android/sdk</td>
+<td>{"appID":"1106230001", "channelMasterID":"9998","patchVersion":"0","signature":"59b568f43e31a63a28f32501647730e5"}</td>
+<td>test_interface_case</td>
+<td>成功</td>
+<td align="center">Pass</td>
+<td></td>
+
+</tr>
+<tr><td align="center">2</td>
+<td>POST</td>
+<td>Android init接口</td>
+<td align="center">/init/android/sdk</td>
+<td>{"appID":"110001", "channelMasterID":"9998","":"0","signature":"59b568f43e31a63a28f32501647730e5"}</td>
+<td>test_interface_case</td>
+<td>appID不存在</td>
+<td align="center">Fail</td>
+<td>Raise Error:10002 != 999 , Response:{'data': None, 'result': 0, 'msg': 'signature校验失败', 'code': 10002}</td>
+
+</tr>
+<tr><td align="center">3</td>
+<td>POST</td>
+<td>Android init接口</td>
+<td align="center">/init/android/sdk</td>
+<td>{"appID":"110001", "channelMasterID":"9998","patchVersion":"0","signature":"59b58f32501647730e5"}</td>
+<td>test_interface_case</td>
+<td>signature有误</td>
+<td align="center">Fail</td>
+<td>Raise Error:10002 != 999 , Response:{'data': None, 'result': 0, 'msg': 'signature校验失败', 'code': 10002}</td>
+
+</tr>
+<tr><td align="center">4</td>
+<td>POST</td>
+<td>Android init接口</td>
+<td align="center">/init/android/sdk</td>
+<td>{"appID":"1106230001", "channelMasterID":"9998","patchVersion":"0","signature":""}</td>
+<td>test_interface_case</td>
+<td>懒得写</td>
+<td align="center">Fail</td>
+<td>Raise Error:10001 != 999 , Response:{'data': None, 'result': 0, 'msg': '参数缺失', 'code': 10001}</td>
+
+</tr>
+<tr><td align="center">5</td>
+<td>POST</td>
+<td>Android init接口</td>
+<td align="center">/init/android/sdk</td>
+<td>{"appID":"1106230001", "channelMasterID":"9998","patchVersion":"0","signature":""}</td>
+<td>test_interface_case</td>
+<td>懒得写</td>
+<td align="center">Fail</td>
+<td>Raise Error:10001 != 999 , Response:{'data': None, 'result': 0, 'msg': '参数缺失', 'code': 10001}</td>
+
+</tr>
+<tr><td align="center">6</td>
+<td>POST</td>
+<td>Android init接口</td>
+<td align="center">/init/android/sdk</td>
+<td>{"appID":"1106230001", "channelMasterID":"9998","patchVersion":"0","signature":""}</td>
+<td>test_interface_case</td>
+<td>懒得写</td>
+<td align="center">Fail</td>
+<td>Raise Error:10001 != 999 , Response:{'data': None, 'result': 0, 'msg': '参数缺失', 'code': 10001}</td>
+
+</tr>
+</table>
+</body>
+</html>

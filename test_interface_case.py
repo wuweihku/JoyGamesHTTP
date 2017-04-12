@@ -28,13 +28,39 @@ class ParametrizedTestCase(unittest.TestCase):
         self.test_data = test_data
         self.http = http
         self.db_cursor = db_cursor
+    
+    # 需要一个函数，能够在发起请求前，对参数表的key-value进行再编辑
+    # updatekey = 需要update的key，传str实参
+    # updatevalue = 需要update的key所对应的value，传str实参
+    def update_request_param(self, updatekey, updatevalue):
+        
+        # DataStruct类实例化出test_data对象
+        # test_data有request_param属性，为str类型
+        # 需要将self.test_data.request_param str转为dict类型
+        request_param_dict = eval(self.test_data.request_param)
+        request_param_dict[updatekey] = updatevalue
+        self.test_data.request_param = str(request_param_dict)
 
 class TestInterfaceCase(ParametrizedTestCase):
+    # 可以在此类中自定义测试场景描述函数
+    # test_interface_case（）为我提供的通用函数
+    # 当然，如果有需求，你也可以写一个test_downloadmovie_firstofall()函数，不管做什么事之前，都要求先下载一部电影
+ 
+    
     def setUp(self):
-        pass
-
+        pass    
+    
     # 测试接口
     def test_interface_case(self):
+        # 测试场景描述函数
+        # 可以进行参数表值调整,即self.test_data.request_param的再编辑
+        # 利用update_request_param更新参数表中的键值对
+
+        # self.update_request_param('patchVersion','999')
+        # self.update_request_param('signature','我不会加密') 
+        # self.update_request_param('notexist','若不存在的key，则添加键值对') 
+        
+        
         try:
             # 尝试向服务器发起请求
             # confighttp.py有做异常处理
@@ -81,7 +107,9 @@ class TestInterfaceCase(ParametrizedTestCase):
             print(self.test_data.reason)
 
         # 更新结果表中的用例运行结果
+        # 同时还要更新test_result表里的request_param字段记录，update_request_param（）的行为要同步到报告中
         try:
+            self.db_cursor.execute('UPDATE test_result SET request_param = %s WHERE case_id = %s', (self.test_data.request_param,self.test_data.case_id))
             self.db_cursor.execute('UPDATE test_result SET result = %s WHERE case_id = %s', (self.test_data.result, self.test_data.case_id))
             self.db_cursor.execute('UPDATE test_result SET reason = %s WHERE case_id = %s', (self.test_data.reason, self.test_data.case_id))
             self.db_cursor.execute('commit')
