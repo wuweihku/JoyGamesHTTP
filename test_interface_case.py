@@ -6,6 +6,7 @@ __author__ = 'WUWEI'
 '''负责管理测试用例对应的测试方法,相关的数据处理'''
 
 import  unittest
+import hashlib 
 
 # 自定义RequestMethodError异常类，当请求到未支持的request method方法时raise
 class RequestMethodError(Exception):
@@ -32,7 +33,7 @@ class ParametrizedTestCase(unittest.TestCase):
     # 需要一个函数，能够在发起请求前，对参数表的key-value进行再编辑
     # updatekey = 需要update的key，传str实参
     # updatevalue = 需要update的key所对应的value，传str实参
-    def update_request_param(self, updatekey, updatevalue):
+    def update_request_param_value(self, updatekey, updatevalue):
         
         # DataStruct类实例化出test_data对象
         # test_data有request_param属性，为str类型
@@ -40,6 +41,24 @@ class ParametrizedTestCase(unittest.TestCase):
         request_param_dict = eval(self.test_data.request_param)
         request_param_dict[updatekey] = updatevalue
         self.test_data.request_param = str(request_param_dict)
+
+    # 需要一个函数，能够便捷地获取参数表的key-value
+    # needkey = 需要值的key，传str实参
+    # return needvalue，返回你所需要的key-value
+    def get_request_param_value(self, needkey):
+        request_param_dict = eval(self.test_data.request_param)
+        needkey = request_param_dict[needkey]
+        return needkey
+
+    # 提供一个便捷的md5函数，供生成signature
+    # sign_data为需要被md5的值,传str实参
+    def get_md5(self,sign_data):
+        sign = hashlib.md5()
+        sign.update(sign_data.encode('utf-8'))
+        sign_md5_data = sign.hexdigest()
+        return sign_md5_data
+
+
 
 class TestInterfaceCase(ParametrizedTestCase):
     # 可以在此类中自定义测试场景描述函数
@@ -54,12 +73,19 @@ class TestInterfaceCase(ParametrizedTestCase):
     def test_interface_case(self):
         # 测试场景描述函数
         # 可以进行参数表值调整,即self.test_data.request_param的再编辑
-        # 利用update_request_param更新参数表中的键值对
-
-        # self.update_request_param('patchVersion','999')
-        # self.update_request_param('signature','我不会加密') 
-        # self.update_request_param('notexist','若不存在的key，则添加键值对') 
+        # 利用update_request_param_value()更新参数表中的键值对
+        # 利用get_request_param_value()获取参数表的指定key-value
+        # 利用get_md5()获取signature等
         
+        '''
+        比如，我要用脚本生成每个case的signature字段值，代码段如下：
+        appkey='f46806d675f16feae23b5c07d4a3c935'
+        appID = self.get_request_param_value('appID')
+        sign_data = appID + appkey
+        sign_md5_data = self.get_md5(sign_data)
+        self.update_request_param_value('signature',sign_md5_data)
+        
+        '''
         
         try:
             # 尝试向服务器发起请求
