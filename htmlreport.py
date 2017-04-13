@@ -68,10 +68,17 @@ class HtmlReport:
             self.cursor.execute(query)
             query_result = self.cursor.fetchall()
             for row in query_result:
-                tab1<< tr(td(int(row[0]), align='center') + td(row[1]) +
-                              td(row[2]) + td(row[3], align='center') +
-                              td(row[4]) + td(row[5]) + td(row[6]) +
-                              td(row[7], align='center') + td(row[8]))
+                tab1<< tr(
+                            td(int(row[0]), align='center')
+                          + td(row[1], align='center')
+                          + td(row[2], align='center')
+                          + td(row[3])
+                          + td(row[4],style="word-break:break-all; word-wrap:break-all;" ,width="800")
+                          + td(row[5], align='center')
+                          + td(row[6], align='center')
+                          + td(row[7], align='center')
+                          + td(row[8],style="word-break:break-all; word-wrap:break-all;" ,width="500")
+                            )
 
             self._set_result_filename(file)
             page.printOut(self.filename)
