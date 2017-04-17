@@ -26,17 +26,19 @@ class  RunCase:
         if 1 == run_mode:
             db_cursor = db_conn.cursor()
             # 获取用例个数
-            db_cursor.execute('SELECT count(case_id)  FROM test_data')
-            test_case_num = db_cursor.fetchone()[0]
+            # 这里取test_data表中的case_id列的所有记录，作为元组返回
+            db_cursor.execute('SELECT case_id FROM test_data')
+            case_id_tuple =  db_cursor.fetchall()
             db_cursor.close()
 
             # 循环执行测试用例
-            for case_id in range(1, test_case_num+1):
+            # 这里case_id_tuple里的每一个元素，都是小元组
+            for case_id in case_id_tuple:
                 db_cursor = db_conn.cursor()
-                db_cursor.execute('SELECT http_method, request_name, request_url, request_param, test_method, test_desc, response_expectation FROM test_data WHERE case_id = %s',(case_id,))
+                db_cursor.execute('SELECT http_method, request_name, request_url, request_param, test_method, test_desc, response_expectation FROM test_data WHERE case_id = %s',(case_id[0],))
                 # 记录数据
                 tmp_result = db_cursor.fetchone()
-                test_data.case_id = case_id
+                test_data.case_id = case_id[0]
                 test_data.http_method = tmp_result[0]
                 test_data.request_name = tmp_result[1]
                 test_data.request_url = tmp_result[2]
@@ -46,7 +48,9 @@ class  RunCase:
                 test_data.response_expectation = tmp_result[6]
                 test_data.result = ''
                 test_data.reason = ''
-                
+               
+                print('case_id: %s\n'%test_data.case_id)
+
                 try:
                     query = ('INSERT INTO test_result(case_id, http_method, request_name, request_url,request_param, test_method, test_desc, result, reason) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)')
                     data = (test_data.case_id,test_data.http_method,test_data.request_name, test_data.request_url,test_data.request_param, test_data.test_method, test_data.test_desc,test_data.result, test_data.reason)
@@ -86,6 +90,8 @@ class  RunCase:
                 test_data.response_expectation = tmp_result[6]
                 test_data.result = ''
                 test_data.reason = ''
+                
+                print('case_id: %s\n'%test_data.case_id)
 
                 try:
                     query = ('INSERT INTO test_result(case_id, http_method, request_name, request_url, request_param, test_method, test_desc, result, reason) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)')
@@ -123,6 +129,8 @@ class  RunCase:
                 test_data.response_expectation = tmp_result[6]
                 test_data.result = ''
                 test_data.reason = ''
+
+                print('case_id: %s\n'%test_data.case_id)
 
                 try:
                     query = ('INSERT INTO test_result(case_id, http_method, request_name, request_url, request_param, test_method, test_desc, result, reason) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)')
